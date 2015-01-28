@@ -1,6 +1,6 @@
 {
   "name": "react-typeahead",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "React-based typeahead and typeahead-tokenizer",
   "keywords": [
     "react",
@@ -28,7 +28,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/fmoo/react-typeahead.git"
+    "url": "https://github.com/Mavann1988/react-typeahead.git"
   },
   "dependencies": {
     "fuzzy": "^0.1.0",
@@ -57,5 +57,8 @@
     "transform": [
       "reactify"
     ]
+  },
+  "publishConfig": {
+    "registry": "http://artifactory.nexus.commercehub.com/artifactory/api/npm/npm-local"
   }
 }
