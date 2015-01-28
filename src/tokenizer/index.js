@@ -21,7 +21,15 @@ var TypeaheadTokenizer = React.createClass({
     defaultValue: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     onTokenRemove: React.PropTypes.func,
-    onTokenAdd: React.PropTypes.func
+    onTokenAdd: React.PropTypes.func,
+    filterOptions: React.PropTypes.shape({
+      // (element from options) => string
+      extract: React.PropTypes.func,
+      pre: React.PropTypes.string,
+      post: React.PropTypes.string,
+      caseSensitive: React.PropTypes.bool
+    }),
+    clearOnSelect: React.PropTypes.bool
   },
 
   getInitialState: function() {
@@ -38,7 +46,13 @@ var TypeaheadTokenizer = React.createClass({
       defaultValue: "",
       placeholder: "",
       onTokenAdd: function() {},
-      onTokenRemove: function() {}
+      onTokenRemove: function() {},
+      filterOptions: {
+        extract: function(element) {
+          return element.toString();
+        }
+      },
+      clearOnSelect: true
     };
   },
 
@@ -50,9 +64,12 @@ var TypeaheadTokenizer = React.createClass({
     var classList = React.addons.classSet(tokenClasses);
     var result = this.state.selected.map(function(selected) {
       return (
-        <Token key={ selected } className={classList}
-          onRemove={ this._removeTokenForValue }>
-          { selected }
+        <Token key={selected.key}
+               element={selected}
+               className={classList}
+               onRemove={this._removeTokenForValue}
+        >
+          { selected.display }
         </Token>
       )
     }, this);
@@ -104,8 +121,11 @@ var TypeaheadTokenizer = React.createClass({
     }
     this.state.selected.push(value);
     this.setState({selected: this.state.selected});
-    this.refs.typeahead.setEntryText("");
     this.props.onTokenAdd(this.state.selected);
+  },
+
+  getSelectedValue: function(){
+    return this.state.selected;
   },
 
   render: function() {
@@ -123,7 +143,10 @@ var TypeaheadTokenizer = React.createClass({
           options={this._getOptionsForTypeahead()}
           defaultValue={this.props.defaultValue}
           onOptionSelected={this._addTokenForValue}
-          onKeyDown={this._onKeyDown} />
+          onKeyDown={this._onKeyDown}
+          filterOptions={this.props.filterOptions}
+          clearOnSelect={this.props.clearOnSelect}
+        />
       </div>
     )
   }

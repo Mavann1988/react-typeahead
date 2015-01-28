@@ -66,7 +66,7 @@ var TypeaheadSelector = React.createClass({
     return this.props.options[index];
   },
 
-  _onClick: function(result, e) {
+  _onClick: function(result) {
     this.props.onOptionSelected(result);
   },
 
