@@ -19986,39 +19986,50 @@ var Typeahead = require('../typeahead');
  */
 var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
   propTypes: {
-    options: React.PropTypes.array,
+    clearOnSelect: React.PropTypes.bool,
+    compareOptions: React.PropTypes.func,
     customClasses: React.PropTypes.object,
-    maxVisible: React.PropTypes.number,
     defaultSelected: React.PropTypes.array,
     defaultValue: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onTokenRemove: React.PropTypes.func,
-    onTokenAdd: React.PropTypes.func,
     getFilterString: React.PropTypes.func,
-    clearOnSelect: React.PropTypes.bool,
+    maxVisible: React.PropTypes.number,
+    onTokenAdd: React.PropTypes.func,
+    onTokenRemove: React.PropTypes.func,
+    options: React.PropTypes.array,
+    placeholder: React.PropTypes.string,
     removeLastTokenOnDelete: React.PropTypes.bool
   },
 
   getInitialState: function() {
+    this.props.options.sort(this.props.compareOptions);
     return {
-      selected: this.props.defaultSelected
+      selected: this.props.defaultSelected,
+      options: this.props.options
     };
   },
 
   getDefaultProps: function() {
     return {
-      options: [],
-      defaultSelected: [],
+      clearOnSelect: true,
+      compareOptions: function(optionA, optionB) {
+        if (optionA.display < optionB.display)
+          return -1;
+        if (optionA.display > optionB.display)
+          return 1;
+        return 0;
+      },
       customClasses: {},
+      defaultSelected: [],
       defaultValue: "",
-      placeholder: "",
-      removeLastTokenOnDelete: false,
-      onTokenAdd: function() {},
-      onTokenRemove: function() {},
       getFilterString: function(element) {
         return element.display;
       },
-      clearOnSelect: true
+      options: [],
+      onTokenAdd: function() {},
+      onTokenRemove: function() {},
+      options: [],
+      placeholder: "",
+      removeLastTokenOnDelete: false
     };
   },
 
@@ -20053,7 +20064,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
 
   _getOptionsForTypeahead: function() {
     // return this.props.options without this.selected
-    return this.props.options;
+    return this.state.options;
   },
 
   _onKeyDown: function(event) {
@@ -20093,7 +20104,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     this.state.selected.splice(index, 1);
     this.setState({selected: this.state.selected});
     this.props.onTokenRemove(this.state.selected);
-    return;
+    this._addValueToOption(value);
   },
 
   _addTokenForValue: function(value) {
@@ -20103,6 +20114,26 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     this.state.selected.push(value);
     this.setState({selected: this.state.selected});
     this.props.onTokenAdd(this.state.selected);
+    this._removeValueFromOptions(value);
+  },
+
+  _addValueToOption: function(value) {
+    var options = this.state.options;
+    var index = options.indexOf(value);
+    if(index == -1){
+      options.push(value);
+      options.sort(this.props.compareOptions);
+      this.setState({options: options});
+    }
+  },
+
+  _removeValueFromOptions: function(value) {
+    var options = this.state.options;
+    var index = options.indexOf(value);
+    if(index != -1){
+      options.splice(index, 1);
+      this.setState({options: options});
+    }
   },
 
   getSelectedValue: function(){
@@ -20193,30 +20224,33 @@ var KeyEvent = require('../keyevent');
  */
 var Typeahead = React.createClass({displayName: "Typeahead",
   propTypes: {
+    clearOnSelect: React.PropTypes.bool,
     customClasses: React.PropTypes.object,
-    maxVisible: React.PropTypes.number,
-    options: React.PropTypes.array,
     defaultValue: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onOptionSelected: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func,
-    getFilterString: React.PropTypes.func,
     displayOriginal: React.PropTypes.bool,
-    // Clear value in input when selection an option
-    clearOnSelect: React.PropTypes.bool
+    getFilterString: React.PropTypes.func,
+    maxVisible: React.PropTypes.number,
+    onKeyDown: React.PropTypes.func,
+    onOptionSelected: React.PropTypes.func,
+    options: React.PropTypes.array,
+    placeholder: React.PropTypes.string
   },
 
   getDefaultProps: function() {
     return {
-      options: [],
+      clearOnSelect: false,
       customClasses: {},
       defaultValue: "",
-      placeholder: "",
-      onKeyDown: function(event) { return },
-      onOptionSelected: function(option) { },
+      displayOriginal: false,
       getFilterString: function(element) {
         return element.display;
-      }
+      },
+      options: [],
+      onKeyDown: function(event) { return },
+      onOptionSelected: function(option) { },
+      placeholder: "",
+      options: [],
+      placeholder: ""
     };
   },
 
@@ -20293,6 +20327,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
     nEntry.focus();
     var value = this.props.clearOnSelect ? "" : option.display;
     nEntry.value = value;
+
     this.setState({visible: [],
                    selection: option,
                    entryValue: value});

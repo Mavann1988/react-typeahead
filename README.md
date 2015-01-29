@@ -167,4 +167,10 @@ Default: `false`
 
 When true, if the input is empty and the user hits the backspace key the last token added will be removed.
 
+#### props.compareOptions
 
+Type: `Function`
+
+Default: `Sorts on display field`
+
+A function for sorting the options which is how they will be displayed to the user.

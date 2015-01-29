@@ -14,30 +14,33 @@ var KeyEvent = require('../keyevent');
  */
 var Typeahead = React.createClass({
   propTypes: {
+    clearOnSelect: React.PropTypes.bool,
     customClasses: React.PropTypes.object,
-    maxVisible: React.PropTypes.number,
-    options: React.PropTypes.array,
     defaultValue: React.PropTypes.string,
-    placeholder: React.PropTypes.string,
-    onOptionSelected: React.PropTypes.func,
-    onKeyDown: React.PropTypes.func,
-    getFilterString: React.PropTypes.func,
     displayOriginal: React.PropTypes.bool,
-    // Clear value in input when selection an option
-    clearOnSelect: React.PropTypes.bool
+    getFilterString: React.PropTypes.func,
+    maxVisible: React.PropTypes.number,
+    onKeyDown: React.PropTypes.func,
+    onOptionSelected: React.PropTypes.func,
+    options: React.PropTypes.array,
+    placeholder: React.PropTypes.string
   },
 
   getDefaultProps: function() {
     return {
-      options: [],
+      clearOnSelect: false,
       customClasses: {},
       defaultValue: "",
-      placeholder: "",
-      onKeyDown: function(event) { return },
-      onOptionSelected: function(option) { },
+      displayOriginal: false,
       getFilterString: function(element) {
         return element.display;
-      }
+      },
+      options: [],
+      onKeyDown: function(event) { return },
+      onOptionSelected: function(option) { },
+      placeholder: "",
+      options: [],
+      placeholder: ""
     };
   },
 
@@ -114,6 +117,7 @@ var Typeahead = React.createClass({
     nEntry.focus();
     var value = this.props.clearOnSelect ? "" : option.display;
     nEntry.value = value;
+
     this.setState({visible: [],
                    selection: option,
                    entryValue: value});
