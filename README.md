@@ -41,7 +41,7 @@ For a tokenizer typeahead input:
     );
 ```
 
-## Usage
+## Dist
 
 To create a new distribution file, run the following browserify command:
 

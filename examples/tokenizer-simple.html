@@ -39,13 +39,12 @@
     <div id="example"></div>
     <script type="text/jsx">
       React.render(
-        <ReactTypeahead.Tokenizer defaultValue="foo"
+        <ReactTypeahead.Tokenizer 
+          defaultValue="foo"
           options={
             [{display: "foobar"}, {display: "spameggs"}, {display: "hameggs"},
              {display: "spamfoo"}, {display: "spam"}]}
-          filterOptions={{extract : function(element){
-              return element.display;
-          }}} />,
+        />,
         document.getElementById("example")
       );
     </script>

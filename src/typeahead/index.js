@@ -21,14 +21,7 @@ var Typeahead = React.createClass({
     placeholder: React.PropTypes.string,
     onOptionSelected: React.PropTypes.func,
     onKeyDown: React.PropTypes.func,
-    filterOptions: React.PropTypes.shape({
-      // (element from options) => string
-      extract: React.PropTypes.func,
-      pre: React.PropTypes.string,
-      post: React.PropTypes.string,
-      caseSensitive: React.PropTypes.bool
-    }),
-    // original element must have a toString method
+    getFilterString: React.PropTypes.func,
     displayOriginal: React.PropTypes.bool,
     // Clear value in input when selection an option
     clearOnSelect: React.PropTypes.bool
@@ -42,10 +35,8 @@ var Typeahead = React.createClass({
       placeholder: "",
       onKeyDown: function(event) { return },
       onOptionSelected: function(option) { },
-      filterOptions: {
-        extract: function(element) {
-          return element.toString();
-        }
+      getFilterString: function(element) {
+        return element.display;
       }
     };
   },
@@ -80,7 +71,7 @@ var Typeahead = React.createClass({
     var context = this;
     var cleanValue = value.toLowerCase();
     var result = options.filter(function(element, index, ar){
-      return (context.props.filterOptions.extract(element).toLowerCase().indexOf(cleanValue) > -1)
+      return (context.props.getFilterString(element).toLowerCase().indexOf(cleanValue) > -1)
     });
 
     if (this.props.maxVisible) {
