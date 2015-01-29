@@ -159,4 +159,12 @@ Type: `Function`
 
 Event handler triggered whenever a token is removed.
 
+#### props.removeLastTokenOnDelete
+
+Type: `Boolean`
+
+Default: false
+
+When true, if the input is empty and the user hits the backspace key the last token added will be removed.
+
 

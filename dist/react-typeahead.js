@@ -19995,7 +19995,8 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     onTokenRemove: React.PropTypes.func,
     onTokenAdd: React.PropTypes.func,
     getFilterString: React.PropTypes.func,
-    clearOnSelect: React.PropTypes.bool
+    clearOnSelect: React.PropTypes.bool,
+    removeLastTokenOnDelete: React.PropTypes.bool
   },
 
   getInitialState: function() {
@@ -20011,6 +20012,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
       customClasses: {},
       defaultValue: "",
       placeholder: "",
+      removeLastTokenOnDelete: false,
       onTokenAdd: function() {},
       onTokenRemove: function() {},
       getFilterString: function(element) {
@@ -20046,6 +20048,12 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
   },
 
   _onKeyDown: function(event) {
+
+    //only attempt to delete the last token if the user wants to
+    if(!this.props.removeLastTokenOnDelete){
+      return;
+    }
+
     // We only care about intercepting backspaces
     if (event.keyCode !== KeyEvent.DOM_VK_BACK_SPACE) {
       return;
