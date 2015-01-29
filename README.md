@@ -11,23 +11,42 @@ a typeahead that allows you to select multiple results.
 For a typeahead input:
 
 ```javascript
-var Typeahead = require('react-typeahead').Typeahead;
-React.render(Typeahead({
-  options: ['John', 'Paul', 'George', 'Ringo'],
-  maxVisible: 2
-});
+	var Typeahead = require('react-typeahead').Typeahead;
+	React.render(
+	    <Typeahead
+	      options={
+	          [{display: "foobar"}, {display: "spameggs"}, {display: "hameggs"},
+	           {display: "spamfoo"}, {display: "spam"}]}
+	      filterOptions={{extract : function(element){
+	          return element.display;
+	      }}}
+	    />,
+    	document.getElementById("typeahead")
+	);
 ```
 
 For a tokenizer typeahead input:
 
 ```javascript
-var Tokenizer = require('react-typeahead').Tokenizer;
-React.render(Typeahead({
-  options: ['John', 'Paul', 'George', 'Ringo'],
-  onTokenAdd: function(token) {
-    console.log('token added: ', token);
-  }
-});
+	var Tokenizer = require('react-typeahead').Tokenizer;
+	React.render(
+        <Tokenizer defaultValue="foo"
+          options={
+            [{display: "foobar"}, {display: "spameggs"}, {display: "hameggs"},
+             {display: "spamfoo"}, {display: "spam"}]}
+          filterOptions={{extract : function(element){
+              return element.display;
+          }}} />,
+        document.getElementById("example")
+    );
+```
+
+## Usage
+
+To create a new distribution file, run the following browserify command:
+
+```
+	browserify src\react-typeahead.js --standalone ReactTypeahead > dist\react-typeahead.js
 ```
 
 ## Examples
@@ -36,11 +55,9 @@ React.render(Typeahead({
 * [Typeahead Tokenizer with Topcoat][2]
 * [Typeahead Tokenizer with simple styling][3]
 
-![](https://i.cloudup.com/CeLPJjWvFK.gif)
-
-[1]: http://wookiehangover.github.com/react-typeahead/examples/typeahead-topcoat.html
-[2]: http://wookiehangover.github.com/react-typeahead/examples/tokenizer-topcoat.html
-[3]: http://wookiehangover.github.com/react-typeahead/examples/TypeaheadTokenizer-simple.html
+[1]: https://github.com/Mavann1988/react-typeahead/blob/master/examples/typeahead-topcoat.html
+[2]: https://github.com/Mavann1988/react-typeahead/blob/master/examples/tokenizer-topcoat.html
+[3]: https://github.com/Mavann1988/react-typeahead/blob/master/examples/tokenizer-simple.html
 
 ## API
 
@@ -55,7 +72,7 @@ Basic typeahead input and results list.
 Type: `Array`
 Default: []
 
-An array supplied to the fuzzy search.
+An array supplied to the search.
 
 #### props.maxVisible
 
@@ -102,7 +119,7 @@ Typeahead component that allows for multiple options to be selected.
 Type: `Array`
 Default: []
 
-An array supplied to the fuzzy search.
+An array supplied to the search.
 
 #### props.maxVisible
 

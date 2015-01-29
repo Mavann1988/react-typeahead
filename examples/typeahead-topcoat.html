@@ -42,33 +42,23 @@
     </div>
 
     <script type="text/jsx">
-/** @jsx React.DOM */
 
-(function(){
-  var req = new XMLHttpRequest();
-  req.open('GET', 'files.txt');
-
-  req.onload = function() {
-    if (req.status !== 200) {
-      throw new Error('nope');
-    }
-
-    React.render(
-      <ReactTypeahead.Typeahead
-        defaultValue="src"
-        options={req.response.split('\n')}
-        className="topcoat-list"
-        customClasses={{
-          input: "topcoat-text-input",
-          results: "topcoat-list__container",
-          listItem: "topcoat-list__item"
-        }} />,
-      document.getElementById("typeahead")
-    );
-  };
-
-  req.send();
-})()
+      React.render(
+        <ReactTypeahead.Typeahead
+          options={
+              [{display: "foobar"}, {display: "spameggs"}, {display: "hameggs"},
+               {display: "spamfoo"}, {display: "spam"}]}
+          filterOptions={{extract : function(element){
+              return element.display;
+          }}}
+          className="topcoat-list"
+          customClasses={{
+            input: "topcoat-text-input",
+            results: "topcoat-list__container",
+            listItem: "topcoat-list__item"
+          }} />,
+        document.getElementById("typeahead")
+      );
 
     </script>
 
