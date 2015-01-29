@@ -43,10 +43,10 @@ For a tokenizer typeahead input:
 
 ## Dist
 
-To create a new distribution file, run the following browserify command:
+To create a new distribution file, run the following npm command:
 
 ```
-	browserify src\react-typeahead.js --standalone ReactTypeahead > dist\react-typeahead.js
+	npm run build
 ```
 
 ## Examples

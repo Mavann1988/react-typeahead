@@ -1,6 +1,6 @@
 {
   "name": "react-typeahead",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React-based typeahead and typeahead-tokenizer",
   "keywords": [
     "react",
@@ -8,10 +8,9 @@
     "tokenizer",
     "react-component"
   ],
-  "homepage": "https://github.com/fmoo/react-typeahead",
   "bugs": {
-    "url": "https://github.com/fmoo/react-typeahead/issues",
-    "email": "ruibalp@gmail.com"
+    "url": "https://github.com/Mavann1988/react-typeahead/issues",
+    "email": "adistasio@gavant.com"
   },
   "license": "ISC",
   "author": {
@@ -20,6 +19,11 @@
     "url": "https://github.com/fmoo"
   },
   "contributors": [
+    {
+      "name": "Alan DiStasio",
+      "email": "adistasio@gavant.com",
+      "url": "https://github.com/Mavann1988"
+    },
     {
       "name": "Sam Breed",
       "email": "sam@quickleft.com",
