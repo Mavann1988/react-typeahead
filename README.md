@@ -130,7 +130,7 @@ Limit the number of options rendered in the results list.
 #### props.customClasses
 
 Type: `Object`
-Allowed Keys: `input`, `results`, `listItem`, `listAnchor`, `typeahead`
+Allowed Keys: `input`, `results`, `listItem`, `listAnchor`, `typeahead`, `token`, `tokenContainer`
 
 An object containing custom class names for child elements. Useful for
 integrating with 3rd party UI kits.
@@ -163,7 +163,7 @@ Event handler triggered whenever a token is removed.
 
 Type: `Boolean`
 
-Default: false
+Default: `false`
 
 When true, if the input is empty and the user hits the backspace key the last token added will be removed.
 

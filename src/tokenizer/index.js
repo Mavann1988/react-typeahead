@@ -56,6 +56,7 @@ var TypeaheadTokenizer = React.createClass({
     var tokenClasses = {}
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
     var classList = React.addons.classSet(tokenClasses);
+    
     var result = this.state.selected.map(function(selected) {
       return (
         <Token key={selected.key}
@@ -63,11 +64,19 @@ var TypeaheadTokenizer = React.createClass({
                className={classList}
                onRemove={this._removeTokenForValue}
         >
-          { selected.display }
+          {selected.display}
         </Token>
       )
     }, this);
-    return result;
+
+    var tokenContainerClasses = {}
+    tokenContainerClasses[this.props.customClasses.tokenContainer] = !!this.props.customClasses.tokenContainer;
+    var tokenContainerClassList = React.addons.classSet(tokenContainerClasses);
+    return (
+      <div className={tokenContainerClassList}>
+        {result}
+      </div>
+    );
   },
 
   _getOptionsForTypeahead: function() {
