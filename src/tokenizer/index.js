@@ -61,22 +61,30 @@ var TypeaheadTokenizer = React.createClass({
     };
   },
 
-  // TODO: Support initialized tokens
-  //
+  componentWillReceiveProps: function(nextProps) {
+    var defaultValue = nextProps.defaultValue === this.props.defaultValue ?
+        this.state.defaultValue : nextProps.defaultValue;
+    this.setState({
+      options: nextProps.options,
+      defaultValue: defaultValue,
+      defaultSelected: nextProps.defaultSelected
+    });
+  },
+
   _renderTokens: function() {
     var tokenClasses = {}
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
     var classList = React.addons.classSet(tokenClasses);
-    
+
     var result = this.state.selected.map(function(selected) {
       return (
-        <Token key={selected.key}
-               element={selected}
-               className={classList}
-               onRemove={this._removeTokenForValue}
-        >
+          <Token key={selected.key}
+              element={selected}
+              className={classList}
+              onRemove={this._removeTokenForValue}
+          >
           {selected.display}
-        </Token>
+          </Token>
       )
     }, this);
 
@@ -84,14 +92,13 @@ var TypeaheadTokenizer = React.createClass({
     tokenContainerClasses[this.props.customClasses.tokenContainer] = !!this.props.customClasses.tokenContainer;
     var tokenContainerClassList = React.addons.classSet(tokenContainerClasses);
     return (
-      <div className={tokenContainerClassList}>
+        <div className={tokenContainerClassList}>
         {result}
-      </div>
+        </div>
     );
   },
 
   _getOptionsForTypeahead: function() {
-    // return this.props.options without this.selected
     return this.state.options;
   },
 
@@ -118,7 +125,7 @@ var TypeaheadTokenizer = React.createClass({
     if (entry.selectionStart == entry.selectionEnd &&
         entry.selectionStart == 0) {
       this._removeTokenForValue(
-        this.state.selected[this.state.selected.length - 1]);
+          this.state.selected[this.state.selected.length - 1]);
       event.preventDefault();
     }
   },
@@ -174,18 +181,18 @@ var TypeaheadTokenizer = React.createClass({
     var classList = React.addons.classSet(classes);
     return (
       <div>
-        { this._renderTokens() }
+        {this._renderTokens()}
         <Typeahead ref="typeahead"
-          className={classList}
-          placeholder={this.props.placeholder}
-          customClasses={this.props.customClasses}
-          maxVisible={this.props.maxVisible}
-          options={this._getOptionsForTypeahead()}
-          defaultValue={this.props.defaultValue}
-          onOptionSelected={this._addTokenForValue}
-          onKeyDown={this._onKeyDown}
-          getFilterString={this.props.getFilterString}
-          clearOnSelect={this.props.clearOnSelect}
+            className={classList}
+            placeholder={this.props.placeholder}
+            customClasses={this.props.customClasses}
+            maxVisible={this.props.maxVisible}
+            options={this._getOptionsForTypeahead()}
+            defaultValue={this.props.defaultValue}
+            onOptionSelected={this._addTokenForValue}
+            onKeyDown={this._onKeyDown}
+            getFilterString={this.props.getFilterString}
+            clearOnSelect={this.props.clearOnSelect}
         />
       </div>
     )

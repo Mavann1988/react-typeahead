@@ -20089,22 +20089,30 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     };
   },
 
-  // TODO: Support initialized tokens
-  //
+  componentWillReceiveProps: function(nextProps) {
+    var defaultValue = nextProps.defaultValue === this.props.defaultValue ?
+        this.state.defaultValue : nextProps.defaultValue;
+    this.setState({
+      options: nextProps.options,
+      defaultValue: defaultValue,
+      defaultSelected: nextProps.defaultSelected
+    });
+  },
+
   _renderTokens: function() {
     var tokenClasses = {}
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
     var classList = React.addons.classSet(tokenClasses);
-    
+
     var result = this.state.selected.map(function(selected) {
       return (
-        React.createElement(Token, {key: selected.key, 
-               element: selected, 
-               className: classList, 
-               onRemove: this._removeTokenForValue
-        }, 
+          React.createElement(Token, {key: selected.key, 
+              element: selected, 
+              className: classList, 
+              onRemove: this._removeTokenForValue
+          }, 
           selected.display
-        )
+          )
       )
     }, this);
 
@@ -20112,14 +20120,13 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     tokenContainerClasses[this.props.customClasses.tokenContainer] = !!this.props.customClasses.tokenContainer;
     var tokenContainerClassList = React.addons.classSet(tokenContainerClasses);
     return (
-      React.createElement("div", {className: tokenContainerClassList}, 
+        React.createElement("div", {className: tokenContainerClassList}, 
         result
-      )
+        )
     );
   },
 
   _getOptionsForTypeahead: function() {
-    // return this.props.options without this.selected
     return this.state.options;
   },
 
@@ -20146,7 +20153,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     if (entry.selectionStart == entry.selectionEnd &&
         entry.selectionStart == 0) {
       this._removeTokenForValue(
-        this.state.selected[this.state.selected.length - 1]);
+          this.state.selected[this.state.selected.length - 1]);
       event.preventDefault();
     }
   },
@@ -20202,18 +20209,18 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
     var classList = React.addons.classSet(classes);
     return (
       React.createElement("div", null, 
-         this._renderTokens(), 
+        this._renderTokens(), 
         React.createElement(Typeahead, {ref: "typeahead", 
-          className: classList, 
-          placeholder: this.props.placeholder, 
-          customClasses: this.props.customClasses, 
-          maxVisible: this.props.maxVisible, 
-          options: this._getOptionsForTypeahead(), 
-          defaultValue: this.props.defaultValue, 
-          onOptionSelected: this._addTokenForValue, 
-          onKeyDown: this._onKeyDown, 
-          getFilterString: this.props.getFilterString, 
-          clearOnSelect: this.props.clearOnSelect}
+            className: classList, 
+            placeholder: this.props.placeholder, 
+            customClasses: this.props.customClasses, 
+            maxVisible: this.props.maxVisible, 
+            options: this._getOptionsForTypeahead(), 
+            defaultValue: this.props.defaultValue, 
+            onOptionSelected: this._addTokenForValue, 
+            onKeyDown: this._onKeyDown, 
+            getFilterString: this.props.getFilterString, 
+            clearOnSelect: this.props.clearOnSelect}
         )
       )
     )
@@ -20318,8 +20325,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
       // The currently visible set of options
       visible: this.getOptionsForValue(this.props.defaultValue, this.props.options),
 
-      // This should be called something else, "entryValue"
-      entryValue: this.props.defaultValue,
+      defaultValue: this.props.defaultValue,
 
       // A valid typeahead value
       selection: null
@@ -20327,12 +20333,12 @@ var Typeahead = React.createClass({displayName: "Typeahead",
   },
 
   componentWillReceiveProps: function(nextProps) {
-    var entryValue = nextProps.defaultValue === this.props.defaultValue ?
-        this.state.entryValue : nextProps.defaultValue;
+    var defaultValue = nextProps.defaultValue === this.props.defaultValue ?
+        this.state.defaultValue : nextProps.defaultValue;
     this.setState({
       options: nextProps.options,
-      entryValue: entryValue,
-      visible: this.getOptionsForValue(entryValue, nextProps.options)
+      defaultValue: defaultValue,
+      visible: this.getOptionsForValue(defaultValue, nextProps.options)
     });
   },
 
@@ -20356,7 +20362,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
 
   _renderIncrementalSearchResults: function() {
     // Nothing has been entered into the textbox
-    if (!this.state.entryValue) {
+    if (!this.state.defaultValue) {
       return "";
     }
 
@@ -20386,7 +20392,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
 
     this.setState({visible: [],
                    selection: option,
-                   entryValue: value});
+                   defaultValue: value});
     this.props.onOptionSelected(option);
   },
 
@@ -20394,7 +20400,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
     var value = this.refs.entry.getDOMNode().value;
     this.setState({visible: this.getOptionsForValue(value, this.state.options),
                    selection: null,
-                   entryValue: value});
+                   defaultValue: value});
   },
 
   _onEnter: function(event) {
@@ -20459,9 +20465,11 @@ var Typeahead = React.createClass({displayName: "Typeahead",
       React.createElement("div", {className: classList}, 
         React.createElement("input", {ref: "entry", type: "text", 
           placeholder: this.props.placeholder, 
-          className: inputClassList, defaultValue: this.state.entryValue, 
-          onChange: this._onTextEntryUpdated, onKeyDown: this._onKeyDown}), 
-         this._renderIncrementalSearchResults() 
+          className: inputClassList, 
+          defaultValue: this.state.defaultValue, 
+          onChange: this._onTextEntryUpdated, 
+          onKeyDown: this._onKeyDown}), 
+            this._renderIncrementalSearchResults()
       )
     );
   }

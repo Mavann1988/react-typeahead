@@ -52,8 +52,7 @@ var Typeahead = React.createClass({
       // The currently visible set of options
       visible: this.getOptionsForValue(this.props.defaultValue, this.props.options),
 
-      // This should be called something else, "entryValue"
-      entryValue: this.props.defaultValue,
+      defaultValue: this.props.defaultValue,
 
       // A valid typeahead value
       selection: null
@@ -61,12 +60,12 @@ var Typeahead = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    var entryValue = nextProps.defaultValue === this.props.defaultValue ?
-        this.state.entryValue : nextProps.defaultValue;
+    var defaultValue = nextProps.defaultValue === this.props.defaultValue ?
+        this.state.defaultValue : nextProps.defaultValue;
     this.setState({
       options: nextProps.options,
-      entryValue: entryValue,
-      visible: this.getOptionsForValue(entryValue, nextProps.options)
+      defaultValue: defaultValue,
+      visible: this.getOptionsForValue(defaultValue, nextProps.options)
     });
   },
 
@@ -90,7 +89,7 @@ var Typeahead = React.createClass({
 
   _renderIncrementalSearchResults: function() {
     // Nothing has been entered into the textbox
-    if (!this.state.entryValue) {
+    if (!this.state.defaultValue) {
       return "";
     }
 
@@ -120,7 +119,7 @@ var Typeahead = React.createClass({
 
     this.setState({visible: [],
                    selection: option,
-                   entryValue: value});
+                   defaultValue: value});
     this.props.onOptionSelected(option);
   },
 
@@ -128,7 +127,7 @@ var Typeahead = React.createClass({
     var value = this.refs.entry.getDOMNode().value;
     this.setState({visible: this.getOptionsForValue(value, this.state.options),
                    selection: null,
-                   entryValue: value});
+                   defaultValue: value});
   },
 
   _onEnter: function(event) {
@@ -193,9 +192,11 @@ var Typeahead = React.createClass({
       <div className={classList}>
         <input ref="entry" type="text"
           placeholder={this.props.placeholder}
-          className={inputClassList} defaultValue={this.state.entryValue}
-          onChange={this._onTextEntryUpdated} onKeyDown={this._onKeyDown} />
-        { this._renderIncrementalSearchResults() }
+          className={inputClassList} 
+          defaultValue={this.state.defaultValue}
+          onChange={this._onTextEntryUpdated} 
+          onKeyDown={this._onKeyDown} />
+            {this._renderIncrementalSearchResults()}
       </div>
     );
   }
