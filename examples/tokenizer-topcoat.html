@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/css/topcoat-mobile-dark.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="../node_modules/react/dist/react-with-addons.js"></script>
     <script src="../node_modules/react/dist/JSXTransformer.js"></script>
@@ -17,28 +16,230 @@
       margin: 0 auto;
     }
 
-    h1 {
-      color: #F0F1F1;
+    .ch-bubble  {
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+      display: inline-block;
+      padding: 0;
+      position: relative;
+      top: 0px;
     }
-
-    a {
-      color: #288EDF;
-    }
-
-    .topcoat-text-input {
+    .ch-bubble .ch-bubble-arrow {
+      font-size: 25px;
+      height: 10px;
+      line-height: 29px;
+      position: absolute;
+      top: -15px;
+      text-align: center;
       width: 100%;
     }
-
-    li.hover {
-      background: #585858;
+    .ch-bubble.ch-bubble-below .ch-bubble-arrow {
+      top: -18px;
+    }
+    .ch-bubble .ch-bubble-arrow i {
+      color: #FFF;
+      display: inline-block;
+    }
+    .ch-bubble .ch-bubble-content {
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      background-color: #FFF;
+      overflow: hidden;
+    }
+    .ch-bubble hr {
+      margin: 0;
     }
 
+    /* ----- SELECT BUBBLE ----- */
+    .ch-bubble-menu {
+      max-height: 385px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    ul.ch-bubble-menu {
+      margin: 0;
+      max-width: 600px;
+      min-width: 150px;
+      padding: 3px 0 0;
+    }
+    .ch-bubble-menu li {
+      border-bottom: 1px #d8dade solid;
+      list-style-type: none;
+    }
+    .ch-bubble-menu li:last-child,
+    .ch-bubble-menu li.ch-bubble-menu-title {
+      border-bottom: none;
+    }
+    ul.ch-bubble-menu li a {
+      display: block;
+      line-height: 40px;
+      overflow: hidden;
+      padding: 5px 25px 5px 15px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+    ul.ch-bubble-menu li.selected a,
+    ul.ch-bubble-menu li a:hover,
+    ul.ch-bubble-menu li.hover a {
+      background-color: #096dff;
+      color: #FFF;
+      text-decoration: none;
+    }
+    .ch-bubble-menu-title h5 {
+      background-color: #03418f;
+      color: #FFF;
+      line-height: 23px;
+      margin: 0;
+      padding: 0 15px;
+    }
 
+    /* ----- DETAIL BUBBLE ----- */
+    .ch-bubble.ch-detail-bubble .ch-bubble-arrow i {
+      color: #0e2546;
+    }
+    .ch-bubble.ch-detail-bubble h1 {
+      background: #0e2546;
+      color: #FFF;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 50px;
+      margin: 0;
+      padding: 0 50px 0 20px;
+      position: relative;
+    }
+    .ch-bubble .ch-bubble-close {
+      color: #89b8ff;
+      cursor: pointer;
+      font-size: 26px;
+      line-height: 40px;
+      position: absolute;
+      right: 10px;
+      top: 5px;
+    }
+    .ch-bubble .ch-bubble-close:hover {
+      color: #FFF;
+    }
+    .ch-bubble.ch-detail-bubble .ch-detail-section {
+      padding: 15px 20px;
+    }
+    .ch-bubble.ch-detail-bubble .ch-detail-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .token-container {
+      margin-bottom: 10px;
+    }
+
+    .typeahead-token {
+      margin: 0px 4px;
+      font-size: 100%;
+      background-color: #eef5ff;
+      border: 1px solid #096dff;
+      color: black;
+      font-weight: normal;
+      display: inline-block;
+      line-height: 20px;
+      vertical-align: top;
+      padding: .2em .6em .3em;
+      text-align: center;
+      white-space: nowrap;
+      border-radius: .25em;
+    }
+
+    .typeahead-token-close{
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    /* ----- TEXT INPUTS ----- */
+    label {
+        display: inline-block;
+        font-size: 15px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"],
+    textarea {
+        border: 0 none;
+        border-radius: 3px;
+        -moz-box-shadow: 1px 1px 2px rgba(0,0,0,0.25) inset;
+        -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.25) inset;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.25) inset;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: inline-block;
+        font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 20px;
+        padding: 10px;
+        resize: none;
+        width: 100%;
+        -webkit-font-smoothing: antialiased;
+        vertical-align: middle;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="url"] {
+        height: 33px;
+        padding: 0 10px;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="search"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"]:focus,
+    textarea:focus {
+        border: 1px solid #096DFF;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="search"]:focus,
+    input[type="tel"]:focus,
+    input[type="url"] {
+        padding: 0 9px;
+    }
+    textarea:focus {
+        padding: 9px;
+    }
+    ::-webkit-input-placeholder {
+        color: #A2A2A2;
+        font-style: italic;
+    }
+    :-moz-placeholder {
+        color: #A2A2A2;
+        font-style: italic;
+    }
+    ::-moz-placeholder {
+        color: #A2A2A2;
+        font-style: italic;
+    }
+    :-ms-input-placeholder {
+       color: #A2A2A2;
+       font-style: italic;
+    }
+
+    .bg-coolgraylight1 {
+      background-color: #F0F3F7;
+    }
 
     </style>
 
     <div id="main">
-      <h1>Topcoat + React.Tokenizer</h1>
+      <h1>Commercehub Styles + React.Tokenizer</h1>
       <div id="typeahead"></div>
     </div>
 
@@ -50,11 +251,11 @@
               [{display: "foobar"}, {display: "spameggs"}, {display: "hameggs"},
                {display: "spamfoo"}, {display: "spam"}]}
           customClasses={{
-            typeahead: "topcoat-list",
-            input: "topcoat-text-input",
-            results: "topcoat-list__container",
-            listItem: "topcoat-list__item",
-            token: "topcoat-button",
+            typeahead: "ch-bubble",
+            input: "bg-coolgraylight1",
+            results: "ch-bubble-menu",
+            listItem: "",
+            token: "label",
             tokenContainer: "token-container"
           }} />,
         document.getElementById("typeahead")
