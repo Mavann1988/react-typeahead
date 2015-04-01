@@ -20296,7 +20296,9 @@ var Typeahead = React.createClass({displayName: "Typeahead",
     onKeyDown: React.PropTypes.func,
     onOptionSelected: React.PropTypes.func,
     options: React.PropTypes.array,
-    placeholder: React.PropTypes.string
+    placeholder: React.PropTypes.string,
+    forceSelection: React.PropTypes.bool,
+    onNoOptionSelected: React.PropTypes.func
   },
 
   getDefaultProps: function() {
@@ -20313,7 +20315,9 @@ var Typeahead = React.createClass({displayName: "Typeahead",
       onOptionSelected: function(option) { },
       placeholder: "",
       options: [],
-      placeholder: ""
+      placeholder: "",
+      forceSelection: false,
+      onNoOptionSelected: function() { }
     };
   },
 
@@ -20447,7 +20451,17 @@ var Typeahead = React.createClass({displayName: "Typeahead",
       return this.props.onKeyDown(event);
     }
     // Don't propagate the keystroke back to the DOM/browser
-    event.preventDefault();
+    event.preventDefault(event);
+  },
+
+  _onBlur: function(event) {
+    if(!event.relatedTarget || !(event.relatedTarget.className == "typeahead-option")){
+      if(this.props.forceSelection && !this.state.selection) {
+        this.refs.entry.getDOMNode().value = "";
+        this.setState({visible: []});
+        this.props.onNoOptionSelected();
+      }
+    }
   },
 
   render: function() {
@@ -20468,7 +20482,8 @@ var Typeahead = React.createClass({displayName: "Typeahead",
           className: inputClassList, 
           defaultValue: this.state.defaultValue, 
           onChange: this._onTextEntryUpdated, 
-          onKeyDown: this._onKeyDown}), 
+          onKeyDown: this._onKeyDown, 
+          onBlur: this._onBlur}), 
             this._renderIncrementalSearchResults()
       )
     );

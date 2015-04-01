@@ -106,6 +106,20 @@ Type: `Function`
 
 Event handler triggered whenever a user picks an option
 
+#### props.forceSelection
+
+Type: `Boolean`
+
+Default: `false`
+
+Require the user to select an item from the list of options. Not selecting from the list will result in the input being cleared.
+
+#### props.onNoOptionSelected
+
+Type: `Function`
+
+Event handler triggered whenever a user doesn't select an option and leaves the input field. Only called if forceSelection is true.
+
 ---
 
 ### Tokenizer(props)
@@ -117,6 +131,7 @@ Typeahead component that allows for multiple options to be selected.
 #### props.options
 
 Type: `Array`
+
 Default: []
 
 An array supplied to the search.
