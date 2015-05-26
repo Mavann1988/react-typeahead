@@ -1,4 +1,53 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.ReactTypeahead=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+function classNames () {
+	'use strict';
+
+	var classes = '';
+
+	for (var i = 0; i < arguments.length; i++) {
+		var arg = arguments[i];
+		if (!arg) continue;
+
+		var argType = typeof arg;
+
+		if ('string' === argType || 'number' === argType) {
+			classes += ' ' + arg;
+
+		} else if (Array.isArray(arg)) {
+			classes += ' ' + classNames.apply(null, arg);
+
+		} else if ('object' === argType) {
+			for (var key in arg) {
+				if (arg.hasOwnProperty(key) && arg[key]) {
+					classes += ' ' + key;
+				}
+			}
+		}
+	}
+
+	return classes.substr(1);
+}
+
+// safely export classNames for node / browserify
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = classNames;
+}
+
+/* global define */
+// safely export classNames for RequireJS
+if (typeof define !== 'undefined' && define.amd) {
+	define('classnames', [], function() {
+		return classNames;
+	});
+}
+
+},{}],2:[function(require,module,exports){
 /**
  * PolyFills make me sad
  */
@@ -13,7 +62,7 @@ KeyEvent.DOM_VK_TAB = KeyEvent.DOM_VK_TAB || 9;
 
 module.exports = KeyEvent;
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var Typeahead = require('./typeahead');
 var Tokenizer = require('./tokenizer');
 
@@ -22,12 +71,13 @@ module.exports = {
   Tokenizer: Tokenizer
 };
 
-},{"./tokenizer":3,"./typeahead":5}],3:[function(require,module,exports){
+},{"./tokenizer":4,"./typeahead":6}],4:[function(require,module,exports){
 /**
  * @jsx React.DOM
  */
 
 var React = window.React || require('react');
+var classNames = require('classnames');
 var Token = require('./token');
 var KeyEvent = require('../keyevent');
 var Typeahead = require('../typeahead');
@@ -99,7 +149,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
   _renderTokens: function() {
     var tokenClasses = {}
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
-    var classList = React.addons.classSet(tokenClasses);
+    var classList = classNames(tokenClasses);
 
     var result = this.state.selected.map(function(selected) {
       return (
@@ -115,7 +165,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
 
     var tokenContainerClasses = {}
     tokenContainerClasses[this.props.customClasses.tokenContainer] = !!this.props.customClasses.tokenContainer;
-    var tokenContainerClassList = React.addons.classSet(tokenContainerClasses);
+    var tokenContainerClassList = classNames(tokenContainerClasses);
     return (
         React.createElement("div", {className: tokenContainerClassList}, 
         result
@@ -203,7 +253,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
   render: function() {
     var classes = {}
     classes[this.props.customClasses.typeahead] = !!this.props.customClasses.typeahead;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
     return (
       React.createElement("div", null, 
         this._renderTokens(), 
@@ -226,7 +276,7 @@ var TypeaheadTokenizer = React.createClass({displayName: "TypeaheadTokenizer",
 
 module.exports = TypeaheadTokenizer;
 
-},{"../keyevent":1,"../typeahead":5,"./token":4,"react":"react"}],4:[function(require,module,exports){
+},{"../keyevent":2,"../typeahead":6,"./token":5,"classnames":1,"react":"react"}],5:[function(require,module,exports){
 /**
  * @jsx React.DOM
  */
@@ -267,12 +317,13 @@ var Token = React.createClass({displayName: "Token",
 
 module.exports = Token;
 
-},{"react":"react"}],5:[function(require,module,exports){
+},{"react":"react"}],6:[function(require,module,exports){
 /**
  * @jsx React.DOM
  */
 
-var React = window.React || require('react/addons');
+var React = window.React || require('react');
+var classNames = require('classnames');
 var TypeaheadSelector = require('./selector');
 var KeyEvent = require('../keyevent');
 
@@ -469,13 +520,13 @@ var Typeahead = React.createClass({displayName: "Typeahead",
   render: function() {
     var inputClasses = {}
     inputClasses[this.props.customClasses.input] = !!this.props.customClasses.input;
-    var inputClassList = React.addons.classSet(inputClasses)
+    var inputClassList = classNames(inputClasses)
 
     var classes = {
       typeahead: true
     }
     classes[this.props.className] = !!this.props.className;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
 
     return (
       React.createElement("div", {className: classList}, 
@@ -494,12 +545,13 @@ var Typeahead = React.createClass({displayName: "Typeahead",
 
 module.exports = Typeahead;
 
-},{"../keyevent":1,"./selector":7,"react/addons":"react/addons"}],6:[function(require,module,exports){
+},{"../keyevent":2,"./selector":8,"classnames":1,"react":"react"}],7:[function(require,module,exports){
 /**
  * @jsx React.DOM
  */
 
-var React = window.React || require('react/addons');
+var React = window.React || require('react');
+var classNames = require('classnames');
 
 /**
  * A single option within the TypeaheadSelector
@@ -531,7 +583,7 @@ var TypeaheadOption = React.createClass({displayName: "TypeaheadOption",
       hover: this.props.hover
     }
     classes[this.props.customClasses.listItem] = !!this.props.customClasses.listItem;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
 
     return (
       React.createElement("li", {className: classList, onClick: this._onClick}, 
@@ -547,7 +599,7 @@ var TypeaheadOption = React.createClass({displayName: "TypeaheadOption",
       "typeahead-option": true
     };
     classes[this.props.customClasses.listAnchor] = !!this.props.customClasses.listAnchor;
-    return React.addons.classSet(classes);
+    return classNames(classes);
   },
 
   _onClick: function(e) {
@@ -559,13 +611,14 @@ var TypeaheadOption = React.createClass({displayName: "TypeaheadOption",
 
 module.exports = TypeaheadOption;
 
-},{"react/addons":"react/addons"}],7:[function(require,module,exports){
+},{"classnames":1,"react":"react"}],8:[function(require,module,exports){
 /**
  * @jsx React.DOM
  */
 
-var React = window.React || require('react/addons');
+var React = window.React || require('react');
 var TypeaheadOption = require('./option');
+var classNames = require('classnames');
 
 /**
  * Container for the options rendered as part of the autocompletion process
@@ -599,7 +652,7 @@ var TypeaheadSelector = React.createClass({displayName: "TypeaheadSelector",
       "typeahead-selector": true
     };
     classes[this.props.customClasses.results] = this.props.customClasses.results;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
 
     var results = this.props.options.map(function(result, i) {
       return (
@@ -668,5 +721,5 @@ var TypeaheadSelector = React.createClass({displayName: "TypeaheadSelector",
 
 module.exports = TypeaheadSelector;
 
-},{"./option":6,"react/addons":"react/addons"}]},{},[2])(2)
+},{"./option":7,"classnames":1,"react":"react"}]},{},[3])(3)
 });

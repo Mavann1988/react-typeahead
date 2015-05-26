@@ -2,7 +2,8 @@
  * @jsx React.DOM
  */
 
-var React = window.React || require('react/addons');
+var React = window.React || require('react');
+var classNames = require('classnames');
 var TypeaheadSelector = require('./selector');
 var KeyEvent = require('../keyevent');
 
@@ -199,13 +200,13 @@ var Typeahead = React.createClass({
   render: function() {
     var inputClasses = {}
     inputClasses[this.props.customClasses.input] = !!this.props.customClasses.input;
-    var inputClassList = React.addons.classSet(inputClasses)
+    var inputClassList = classNames(inputClasses)
 
     var classes = {
       typeahead: true
     }
     classes[this.props.className] = !!this.props.className;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
 
     return (
       <div className={classList}>

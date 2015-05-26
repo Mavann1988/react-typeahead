@@ -3,6 +3,7 @@
  */
 
 var React = window.React || require('react');
+var classNames = require('classnames');
 var Token = require('./token');
 var KeyEvent = require('../keyevent');
 var Typeahead = require('../typeahead');
@@ -74,7 +75,7 @@ var TypeaheadTokenizer = React.createClass({
   _renderTokens: function() {
     var tokenClasses = {}
     tokenClasses[this.props.customClasses.token] = !!this.props.customClasses.token;
-    var classList = React.addons.classSet(tokenClasses);
+    var classList = classNames(tokenClasses);
 
     var result = this.state.selected.map(function(selected) {
       return (
@@ -90,7 +91,7 @@ var TypeaheadTokenizer = React.createClass({
 
     var tokenContainerClasses = {}
     tokenContainerClasses[this.props.customClasses.tokenContainer] = !!this.props.customClasses.tokenContainer;
-    var tokenContainerClassList = React.addons.classSet(tokenContainerClasses);
+    var tokenContainerClassList = classNames(tokenContainerClasses);
     return (
         <div className={tokenContainerClassList}>
         {result}
@@ -178,7 +179,7 @@ var TypeaheadTokenizer = React.createClass({
   render: function() {
     var classes = {}
     classes[this.props.customClasses.typeahead] = !!this.props.customClasses.typeahead;
-    var classList = React.addons.classSet(classes);
+    var classList = classNames(classes);
     return (
       <div>
         {this._renderTokens()}
