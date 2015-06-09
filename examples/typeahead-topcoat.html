@@ -53,7 +53,9 @@
             input: "topcoat-text-input",
             results: "topcoat-list__container",
             listItem: "topcoat-list__item"
-          }} />,
+          }}
+          forceSelection={true}
+          onOptionSelected={function(option){alert(option);}} />,
         document.getElementById("typeahead")
       );
 

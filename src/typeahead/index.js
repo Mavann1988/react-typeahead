@@ -188,13 +188,20 @@ var Typeahead = React.createClass({
   },
 
   _onBlur: function(event) {
-    if(!event.relatedTarget || !(event.relatedTarget.className == "typeahead-option")){
-      if(this.props.forceSelection && !this.state.selection) {
-        this.refs.entry.getDOMNode().value = "";
-        this.setState({visible: []});
-        this.props.onNoOptionSelected();
+    var optionClicked = (event.relatedTarget && event.relatedTarget.className == "typeahead-option")
+                          || (event.nativeEvent.explicitOriginalTarget 
+                                && (event.nativeEvent.explicitOriginalTarget.className == "topcoat-list__item"
+                                  || event.nativeEvent.explicitOriginalTarget.parentNode.className == "typeahead-option"));
+    var context = this;
+    setTimeout(function(){
+      if(!optionClicked && !context.selection){
+        if(context.props.forceSelection && !context.state.selection) {
+          context.refs.entry.getDOMNode().value = "";
+          context.setState({visible: []});
+          context.props.onNoOptionSelected();
+        }
       }
-    }
+    }, 100);
   },
 
   render: function() {
