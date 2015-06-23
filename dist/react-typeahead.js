@@ -510,7 +510,7 @@ var Typeahead = React.createClass({displayName: "Typeahead",
   _onBlur: function(event) {
     var optionClicked = (event.relatedTarget && event.relatedTarget.className == "typeahead-option")
                           || (event.nativeEvent.explicitOriginalTarget 
-                                && (event.nativeEvent.explicitOriginalTarget.className == "topcoat-list__item"
+                                && (event.nativeEvent.explicitOriginalTarget.className.indexOf("typeahead-option-item") > -1
                                   || event.nativeEvent.explicitOriginalTarget.parentNode.className == "typeahead-option"));
     var context = this;
     setTimeout(function(){
@@ -587,7 +587,8 @@ var TypeaheadOption = React.createClass({displayName: "TypeaheadOption",
 
   render: function() {
     var classes = {
-      hover: this.props.hover
+      hover: this.props.hover,
+      "typeahead-option-item": true
     }
     classes[this.props.customClasses.listItem] = !!this.props.customClasses.listItem;
     var classList = classNames(classes);

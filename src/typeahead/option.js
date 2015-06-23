@@ -32,7 +32,8 @@ var TypeaheadOption = React.createClass({
 
   render: function() {
     var classes = {
-      hover: this.props.hover
+      hover: this.props.hover,
+      "typeahead-option-item": true
     }
     classes[this.props.customClasses.listItem] = !!this.props.customClasses.listItem;
     var classList = classNames(classes);
