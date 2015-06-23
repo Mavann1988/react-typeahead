@@ -193,7 +193,7 @@ var Typeahead = React.createClass({
                                 && (event.nativeEvent.explicitOriginalTarget.className.indexOf("typeahead-option-item") > -1
                                   || event.nativeEvent.explicitOriginalTarget.className.indexOf("typeahead-option") > -1
                                   || event.nativeEvent.explicitOriginalTarget.parentNode.className.indexOf("typeahead-option") > -1
-                                  || event.nativeEvent.explicitOriginalTarget.parentNode.className.indexOf("typeahead-option-item") > -1)));
+                                  || event.nativeEvent.explicitOriginalTarget.parentNode.className.indexOf("typeahead-option-item") > -1));
     var context = this;
     setTimeout(function(){
       if(!optionClicked && !context.selection){
