@@ -203,7 +203,7 @@ var Typeahead = React.createClass({
           context.props.onNoOptionSelected();
         }
       }
-    }, 100);
+    }, 200);
   },
 
   render: function() {
